@@ -1,0 +1,139 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext.app = [
+    buildToolsVersion : '25.0.2',
+    minSdkVersion     : 17,
+    compileSdkVersion : 25,
+    targetSdkVersion  : 25,
+    applicationId     : 'orwir.backbone'
+]
+ext.app.putAll(loadProjectConfiguration())
+
+def version = [
+        retrolambda    : '3.4.0',
+
+        support        : '25.0.2',
+
+        timber         : '4.4.0',
+        okhttp         : '3.6.0',
+        retrofit       : '2.2.0',
+        gson           : '2.8.0',
+        playServices   : '10.0.1',
+
+        rxJava         : '1.2.3',
+        rxAndroid      : '1.2.1',
+        rxBinding      : '1.0.0',
+        rxLifecycle    : '0.4.0',
+
+        butterKnife    : '7.0.1',
+        materialDrawer : '5.9.0@aar',
+        glide          : '3.7.0',
+
+        junit          : '4.12',
+        robolectric    : '3.1.4',
+
+        leakcanary     : '1.5'
+]
+
+ext.lib = [
+        retrolambda             : "me.tatarka:gradle-retrolambda:$version.retrolambda",
+
+        supportAnnotations      : "com.android.support:support-annotations:$version.support",
+        supportAppCompatV7      : "com.android.support:appcompat-v7:$version.support",
+        supportV4               : "com.android.support:support-v4:$version.support",
+        supportV13              : "com.android.support:support-v13:$version.support",
+        supportRecyclerViewV7   : "com.android.support:recyclerview-v7:$version.support",
+        supportCardViewV7       : "com.android.support:cardview-v7:$version.support",
+        supportDesign           : "com.android.support:design:$version.support",
+        supportMultidex         : "com.android.support:multidex:1.0.1",
+
+        timber                  : "com.jakewharton.timber:timber:$version.timber",
+        okhttp                  : "com.squareup.okhttp3:okhttp:$version.okhttp",
+        okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:$version.okhttp",
+        retrofit                : "com.squareup.retrofit2:retrofit:$version.retrofit",
+        retrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$version.retrofit",
+        retrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava:$version.retrofit",
+        gson                    : "com.google.code.gson:gson:$version.gson",
+        firebaseCore            : "com.google.firebase:firebase-core:$version.playServices",
+        firebaseMessaging       : "com.google.firebase:firebase-messaging:$version.playServices",
+        firebaseCrash           : "com.google.firebase:firebase-crash:$version.playServices",
+        gms                     : "com.google.android.gms:play-services:$version.playServices",
+
+        rxJava                  : "io.reactivex:rxjava:$version.rxJava",
+        rxAndroid               : "io.reactivex:rxandroid:$version.rxAndroid",
+        rxBindingAppCompatV7    : "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$version.rxBinding",
+        rxBindingDesign         : "com.jakewharton.rxbinding:rxbinding-design:$version.rxBinding",
+        rxBindingRecyclerViewV7 : "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:$version.rxBinding",
+        rxLifecycle             : "com.trello:rxlifecycle:$version.rxLifecycle",
+        rxLifecycleComponents   : "com.trello:rxlifecycle-components:$version.rxLifecycle",
+
+        butterKnife             : "com.jakewharton:butterknife:$version.butterKnife",
+        materialDrawer          : "com.mikepenz:materialdrawer:$version.materialDrawer",
+        glide                   : "com.github.bumptech.glide:glide:$version.glide",
+        zxing                   : "me.dm7.barcodescanner:zxing:$version.zxing",
+
+        junit                   : "junit:junit:$version.junit",
+        robolectric             : "org.robolectric:robolectric:$version.robolectric",
+
+        yandexmapkit            : "ru.yandex:yandexmapkit:$version.yandexmapkit",
+        ymetrica                : "com.yandex.android:mobmetricalib:$version.ymetrica",
+        leakcanary              : [
+                'on'            : "com.squareup.leakcanary:leakcanary-android:$version.leakcanary",
+                'off'           : "com.squareup.leakcanary:leakcanary-android-no-op:$version.leakcanary"
+        ]
+]
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+def loadProjectConfiguration() {
+    File file = file("$rootDir/project.properties")
+    if (file.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(file))
+        return [
+                versionCode      : props['version.code'],
+                versionName      : props['version.name'],
+
+                signFile         : props['sign.file'],
+                signPassword     : props['sign.password'],
+                signKeyAlias     : props['sign.key.alias'],
+                signKeyPassword  : props['sign.key.password'],
+
+                uploaderAccount  : props['uploader.account'],
+                uploaderPk12file : props['uploader.pk12file']
+        ]
+    } else {
+        return [
+                versionCode      : System.getenv('VERSION_CODE'),
+                versionName      : System.getenv('VERSION_NAME'),
+
+                signFile         : System.getenv('SIGN_FILE'),
+                signPassword     : System.getenv('STORE_PASSWORD'),
+                signKeyAlias     : System.getenv('STORE_KEY'),
+                signKeyPassword  : System.getenv('store_key_password'),
+
+                uploaderAccount  : System.getenv('uploader.account'),
+                uploaderPk12file : System.getenv('uploader.pk12file')
+        ]
+    }
+}

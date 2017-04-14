@@ -1,0 +1,80 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath lib.retrolambda
+        //classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.github.triplet.gradle:play-publisher:1.1.5'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.github.triplet.play'
+
+retrolambda {
+    jvmArgs '-noverify'
+}
+
+android {
+    compileSdkVersion app.compileSdkVersion
+    buildToolsVersion app.buildToolsVersion
+    defaultConfig {
+        applicationId app.applicationId
+        minSdkVersion app.minSdkVersion
+        targetSdkVersion app.targetSdkVersion
+        versionCode app.versionCode
+        versionName app.versionName
+        //multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(app.signFile)
+            storePassword app.signPassword
+            keyAlias app.signKeyAlias
+            keyPassword sign.keyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+play {
+    serviceAccountEmail = app.uploaderAccount
+    pk12File = file(app.uploaderPk12file)
+    track = 'alpha'
+}
+
+dependencies {
+    //compile lib.supportMultidex
+    compile lib.supportAppCompatV7
+    compile lib.supportRecyclerViewV7
+    compile lib.supportCardViewV7
+
+    compile lib.rxAndroid
+    compile lib.rxLifecycle
+    compile lib.rxLifecycleComponents
+    compile(lib.materialDrawer) {
+        transitive = true
+    }
+    compile lib.butterKnife
+
+    //compile lib.firebaseCore
+    //compile lib.firebaseMessaging
+    //compile lib.gms
+}
+
+apply plugin: 'com.google.gms.google-services'
