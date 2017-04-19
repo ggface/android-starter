@@ -23,10 +23,10 @@ android {
     buildToolsVersion app.buildToolsVersion
     defaultConfig {
         applicationId app.applicationId
-        minSdkVersion app.minSdkVersion
-        targetSdkVersion app.targetSdkVersion
         versionCode app.versionCode
         versionName app.versionName
+        minSdkVersion app.minSdkVersion
+        targetSdkVersion app.targetSdkVersion
         //multiDexEnabled true
     }
 
@@ -35,7 +35,7 @@ android {
             storeFile file(app.signFile)
             storePassword app.signPassword
             keyAlias app.signKeyAlias
-            keyPassword sign.keyPassword
+            keyPassword app.signKeyPassword
         }
     }
 
@@ -59,17 +59,22 @@ play {
 }
 
 dependencies {
+    annotationProcessor lib.butterKnifeCompiler
+    debugCompile   project(path: ':logic', configuration: 'debug')
+    releaseCompile project(path: ':logic', configuration: 'release')
+
     //compile lib.supportMultidex
     compile lib.supportAppCompatV7
-    compile lib.supportRecyclerViewV7
-    compile lib.supportCardViewV7
+    compile lib.supportDesign
+    //compile lib.supportRecyclerViewV7
+    //compile lib.supportCardViewV7
 
     compile lib.rxAndroid
     compile lib.rxLifecycle
     compile lib.rxLifecycleComponents
-    compile(lib.materialDrawer) {
+    /*compile(lib.materialDrawer) {
         transitive = true
-    }
+    }*/
     compile lib.butterKnife
 
     //compile lib.firebaseCore
@@ -77,4 +82,4 @@ dependencies {
     //compile lib.gms
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

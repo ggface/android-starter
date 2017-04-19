@@ -30,7 +30,7 @@ ext.app.putAll(loadProjectConfiguration())
 def version = [
         retrolambda    : '3.4.0',
 
-        support        : '25.0.2',
+        support        : '25.0.0',
 
         timber         : '4.4.0',
         okhttp         : '3.6.0',
@@ -43,7 +43,7 @@ def version = [
         rxBinding      : '1.0.0',
         rxLifecycle    : '0.4.0',
 
-        butterKnife    : '7.0.1',
+        butterKnife    : '8.5.1',
         materialDrawer : '5.9.0@aar',
         glide          : '3.7.0',
 
@@ -86,6 +86,7 @@ ext.lib = [
         rxLifecycleComponents   : "com.trello:rxlifecycle-components:$version.rxLifecycle",
 
         butterKnife             : "com.jakewharton:butterknife:$version.butterKnife",
+        butterKnifeCompiler     : "com.jakewharton:butterknife-compiler:$version.butterKnife",
         materialDrawer          : "com.mikepenz:materialdrawer:$version.materialDrawer",
         glide                   : "com.github.bumptech.glide:glide:$version.glide",
         zxing                   : "me.dm7.barcodescanner:zxing:$version.zxing",
@@ -93,8 +94,6 @@ ext.lib = [
         junit                   : "junit:junit:$version.junit",
         robolectric             : "org.robolectric:robolectric:$version.robolectric",
 
-        yandexmapkit            : "ru.yandex:yandexmapkit:$version.yandexmapkit",
-        ymetrica                : "com.yandex.android:mobmetricalib:$version.ymetrica",
         leakcanary              : [
                 'on'            : "com.squareup.leakcanary:leakcanary-android:$version.leakcanary",
                 'off'           : "com.squareup.leakcanary:leakcanary-android-no-op:$version.leakcanary"
@@ -111,7 +110,7 @@ def loadProjectConfiguration() {
         Properties props = new Properties()
         props.load(new FileInputStream(file))
         return [
-                versionCode      : props['version.code'],
+                versionCode      : props['version.code'] as Integer,
                 versionName      : props['version.name'],
 
                 signFile         : props['sign.file'],
@@ -124,7 +123,7 @@ def loadProjectConfiguration() {
         ]
     } else {
         return [
-                versionCode      : System.getenv('VERSION_CODE'),
+                versionCode      : System.getenv('VERSION_CODE') as Integer,
                 versionName      : System.getenv('VERSION_NAME'),
 
                 signFile         : System.getenv('SIGN_FILE'),
