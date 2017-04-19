@@ -33,7 +33,7 @@ dependencies {
 //    compile lib.retrofit
 //    compile lib.retrofitConverterGson
 //    compile lib.retrofitAdapterRxJava
-//    compile lib.gson
+    compile lib.gson
 
     debugCompile   lib.leakcanary.on
     releaseCompile lib.leakcanary.off
