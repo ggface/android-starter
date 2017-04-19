@@ -28,11 +28,11 @@ android {
 dependencies {
     compile lib.rxJava
     compile lib.timber
-//    compile lib.okhttp
-//    compile lib.okhttpLogging
-//    compile lib.retrofit
-//    compile lib.retrofitConverterGson
-//    compile lib.retrofitAdapterRxJava
+    compile lib.okhttp
+    compile lib.okhttpLogging
+    compile lib.retrofit
+    compile lib.retrofitConverterGson
+    compile lib.retrofitAdapterRxJava
     compile lib.gson
 
     debugCompile   lib.leakcanary.on
