@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ViewStubCompat;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -21,7 +24,9 @@ import timber.log.Timber;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
 
-    @BindView(R.id.toolbar) @Nullable Toolbar toolbar;
+    @BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
+    @BindView(R.id.swipe) @Nullable protected SwipeRefreshLayout swipe;
+    @BindView(R.id.vscroll) @Nullable protected NestedScrollView vscroll;
     private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
 
     /**
@@ -51,13 +56,24 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentId());
+        if (getContentId() == R.layout.container && getInnerContentId() != -1) {
+            ViewStubCompat container = (ViewStubCompat) findViewById(R.id.stub);
+            container.setLayoutResource(getInnerContentId());
+            container.inflate();
+        }
         ButterKnife.bind(this);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
     }
 
     @LayoutRes
     protected abstract int getContentId();
+
+    @LayoutRes
+    protected int getInnerContentId() {
+        return -1; //stub
+    }
 
 }
