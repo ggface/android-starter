@@ -46,6 +46,7 @@ def version = [
         butterKnife    : '8.5.1',
         materialDrawer : '5.9.0@aar',
         glide          : '3.7.0',
+        conceal        : '1.1.3@aar',
 
         junit          : '4.12',
         robolectric    : '3.1.4',
@@ -89,7 +90,7 @@ ext.lib = [
         butterKnifeCompiler     : "com.jakewharton:butterknife-compiler:$version.butterKnife",
         materialDrawer          : "com.mikepenz:materialdrawer:$version.materialDrawer",
         glide                   : "com.github.bumptech.glide:glide:$version.glide",
-        zxing                   : "me.dm7.barcodescanner:zxing:$version.zxing",
+        conceal                 : "com.facebook.conceal:conceal:$version.conceal",
 
         junit                   : "junit:junit:$version.junit",
         robolectric             : "org.robolectric:robolectric:$version.robolectric",
