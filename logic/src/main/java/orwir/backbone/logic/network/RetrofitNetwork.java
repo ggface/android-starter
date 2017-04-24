@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import orwir.backbone.logic.BuildConfig;
-import rx.Observable;
 import timber.log.Timber;
 
 public class RetrofitNetwork implements NetworkCommon {

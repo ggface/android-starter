@@ -14,7 +14,7 @@ public class OpenUtils {
     @SafeVarargs
     public static void startWithTransition(@NonNull Context context, @NonNull Intent intent, @Nullable Pair<View, String>... sharedElements) {
         if (context instanceof Activity) {
-            startWithTransition((Activity) context, intent, sharedElements);
+            startWithTransition(context, intent, sharedElements);
         } else {
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
@@ -23,7 +23,7 @@ public class OpenUtils {
 
     public static void startWithTransition(@NonNull Context context, @NonNull Intent intent, int enterAnim, int exitAnim) {
         if (context instanceof Activity) {
-            startWithTransition((Activity) context, intent, enterAnim, exitAnim);
+            startWithTransition(context, intent, enterAnim, exitAnim);
         } else {
             context.startActivity(intent);
         }

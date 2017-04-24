@@ -8,8 +8,8 @@ import android.support.v4.app.ActivityCompat;
 
 import java.util.Arrays;
 
+import io.reactivex.functions.Action;
 import orwir.backbone.ui.BaseActivity;
-import rx.functions.Action0;
 import timber.log.Timber;
 
 public class PermUtils {
@@ -19,19 +19,23 @@ public class PermUtils {
     public static class RequestedAction {
         public final int requestCode;
         public final String[] permissions;
-        public final Action0 action;
+        public final Action action;
 
-        RequestedAction(int requestCode, Action0 action, String... permissions) {
+        RequestedAction(int requestCode, Action action, String... permissions) {
             this.permissions = permissions;
             this.requestCode = requestCode;
             this.action = action;
         }
     }
 
-    public static void executeWithPermission(BaseActivity context, String permission, int requestCode, Action0 action) {
+    public static void executeWithPermission(BaseActivity context, String permission, int requestCode, Action action) {
         if (ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) {
             Timber.d("permission '%s' already granted.", permission);
-            action.call();
+            try {
+                action.run();
+            } catch (Exception e) {
+                Timber.e(e.getMessage());
+            }
         } else {
             Timber.d("permission '%s' not granted. Request it.");
             context.addRequestedAction(new RequestedAction(requestCode, action, permission));
@@ -39,10 +43,14 @@ public class PermUtils {
         }
     }
 
-    public static void executeWithPermission(BaseActivity context, String[] permissions, int requestCode, Action0 action) {
+    public static void executeWithPermission(BaseActivity context, String[] permissions, int requestCode, Action action) {
         if (isPermissionGranted(context, permissions)) {
             Timber.d("permissions '%s' already granted.", Arrays.toString(permissions));
-            action.call();
+            try {
+                action.run();
+            } catch (Exception e) {
+                Timber.e(e.getMessage());
+            }
         } else {
             Timber.d("permissions '%s' not granted. Request it.", Arrays.toString(permissions));
             context.addRequestedAction(new RequestedAction(requestCode, action, permissions));

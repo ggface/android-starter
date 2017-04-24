@@ -2,7 +2,7 @@ package orwir.backbone.logic.network;
 
 import com.google.gson.Gson;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface NetworkCommon {
 

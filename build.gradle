@@ -71,7 +71,7 @@ ext.lib = [
         okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:$version.okhttp",
         retrofit                : "com.squareup.retrofit2:retrofit:$version.retrofit",
         retrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$version.retrofit",
-        retrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava:$version.retrofit",
+        retrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava2:$version.retrofit",
         gson                    : "com.google.code.gson:gson:$version.gson",
         firebaseCore            : "com.google.firebase:firebase-core:$version.playServices",
         firebaseMessaging       : "com.google.firebase:firebase-messaging:$version.playServices",

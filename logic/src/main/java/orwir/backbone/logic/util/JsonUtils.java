@@ -76,18 +76,12 @@ public class JsonUtils {
 
     public static boolean bool(JsonElement json, String path) {
         JsonElement element = path(json, path);
-        if (checkNotNull(element)) {
-            return element.getAsBoolean();
-        }
-        return false;
+        return checkNotNull(element) && element.getAsBoolean();
     }
 
     public static boolean bool(JsonElement json, Object... segments) {
         JsonElement element = segments(json, segments);
-        if (checkNotNull(element)) {
-            return element.getAsBoolean();
-        }
-        return false;
+        return checkNotNull(element) && element.getAsBoolean();
     }
 
     public static BigDecimal bigDecimal(JsonElement json, String path) {
