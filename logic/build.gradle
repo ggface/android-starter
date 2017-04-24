@@ -1,4 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath lib.retrolambda
+    }
+}
+
+retrolambda {
+    jvmArgs '-noverify'
+}
 
 android {
     compileSdkVersion app.compileSdkVersion
@@ -37,4 +51,6 @@ dependencies {
 
     debugCompile   lib.leakcanary.on
     releaseCompile lib.leakcanary.off
+
+    testCompile lib.junit
 }

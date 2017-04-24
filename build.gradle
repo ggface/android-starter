@@ -28,20 +28,20 @@ ext.app = [
 ext.app.putAll(loadProjectConfiguration())
 
 def version = [
-        retrolambda    : '3.4.0',
+        retrolambda    : '3.6.1',
 
-        support        : '25.0.0',
+        support        : '25.3.1',
 
-        timber         : '4.4.0',
-        okhttp         : '3.6.0',
+        timber         : '4.5.1',
+        okhttp         : '3.7.0',
         retrofit       : '2.2.0',
         gson           : '2.8.0',
-        playServices   : '10.0.1',
+        playServices   : '10.2.1',
 
-        rxJava         : '1.2.3',
-        rxAndroid      : '1.2.1',
-        rxBinding      : '1.0.0',
-        rxLifecycle    : '0.4.0',
+        rxJava         : '2.0.9',
+        rxAndroid      : '2.0.1',
+        rxBinding      : '2.0.0',
+        rxLifecycle    : '2.0.1',
 
         butterKnife    : '8.5.1',
         materialDrawer : '5.9.0@aar',
@@ -77,13 +77,13 @@ ext.lib = [
         firebaseCrash           : "com.google.firebase:firebase-crash:$version.playServices",
         gms                     : "com.google.android.gms:play-services:$version.playServices",
 
-        rxJava                  : "io.reactivex:rxjava:$version.rxJava",
-        rxAndroid               : "io.reactivex:rxandroid:$version.rxAndroid",
-        rxBindingAppCompatV7    : "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$version.rxBinding",
-        rxBindingDesign         : "com.jakewharton.rxbinding:rxbinding-design:$version.rxBinding",
-        rxBindingRecyclerViewV7 : "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:$version.rxBinding",
-        rxLifecycle             : "com.trello:rxlifecycle:$version.rxLifecycle",
-        rxLifecycleComponents   : "com.trello:rxlifecycle-components:$version.rxLifecycle",
+        rxJava                  : "io.reactivex.rxjava2:rxjava:$version.rxJava",
+        rxAndroid               : "io.reactivex.rxjava2:rxandroid:$version.rxAndroid",
+        rxBindingAppCompatV7    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$version.rxBinding",
+        rxBindingDesign         : "com.jakewharton.rxbinding2:rxbinding-design:$version.rxBinding",
+        rxBindingRecyclerViewV7 : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$version.rxBinding",
+        rxLifecycle             : "com.trello.rxlifecycle2:rxlifecycle:$version.rxLifecycle",
+        rxLifecycleComponents   : "com.trello.rxlifecycle2:rxlifecycle-components:$version.rxLifecycle",
 
         butterKnife             : "com.jakewharton:butterknife:$version.butterKnife",
         butterKnifeCompiler     : "com.jakewharton:butterknife-compiler:$version.butterKnife",
@@ -129,10 +129,10 @@ def loadProjectConfiguration() {
                 signFile         : System.getenv('SIGN_FILE'),
                 signPassword     : System.getenv('STORE_PASSWORD'),
                 signKeyAlias     : System.getenv('STORE_KEY'),
-                signKeyPassword  : System.getenv('store_key_password'),
+                signKeyPassword  : System.getenv('STORE_KEY_PASSWORD'),
 
-                uploaderAccount  : System.getenv('uploader.account'),
-                uploaderPk12file : System.getenv('uploader.pk12file')
+                uploaderAccount  : System.getenv('UPLOADER_ACCOUNT'),
+                uploaderPk12file : System.getenv('UPLOADER_PK12FILE')
         ]
     }
 }

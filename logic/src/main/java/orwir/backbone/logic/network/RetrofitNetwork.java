@@ -29,6 +29,7 @@ public class RetrofitNetwork implements NetworkCommon {
                 .setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
         //workaround for http://stackoverflow.com/questions/39133437/sslhandshakeexception-handshake-failed-on-android-n-7-0
+        //affected version 6.0.0 and 7.0.0
         List<ConnectionSpec> connectionSpecs = Arrays.asList(
                 new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS).allEnabledCipherSuites().build(),
                 ConnectionSpec.COMPATIBLE_TLS,

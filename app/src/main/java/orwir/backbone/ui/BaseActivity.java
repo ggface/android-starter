@@ -1,11 +1,12 @@
 package orwir.backbone.ui;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -18,7 +19,7 @@ import orwir.backbone.util.PermUtils;
 import rx.functions.Action0;
 import timber.log.Timber;
 
-public class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
 
     @BindView(R.id.toolbar) @Nullable Toolbar toolbar;
     private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
@@ -49,10 +50,14 @@ public class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentId());
         ButterKnife.bind(this);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
     }
+
+    @LayoutRes
+    protected abstract int getContentId();
 
 }
