@@ -54,6 +54,7 @@ public class ServiceSubscriber<T extends IBinder> implements ObservableOnSubscri
                 return disposed;
             }
         });
+        context.startService(intent); //for proper work in a background
         context.bindService(intent, connection, flags);
     }
 
