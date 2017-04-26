@@ -12,12 +12,12 @@ public class AndroidService extends Service {
 
     public class ServiceBinder extends Binder {
 
-        public AppContext getAppContext() {
+        public AppFacade getAppContext() {
             return context;
         }
     }
 
-    private AppContext context;
+    private AppFacade context;
     private final ServiceBinder binder = new ServiceBinder();
 
     @Nullable
@@ -29,8 +29,15 @@ public class AndroidService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        context = new AppContext.Builder()
+        //Timber.v("Service '%s' was created", getClass().getSimpleName());
+        context = new AppFacade.Builder()
                 .cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
                 .build();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //Timber.v("Service '%s' was destroyed", getClass().getSimpleName());
     }
 }

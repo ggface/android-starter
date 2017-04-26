@@ -5,14 +5,14 @@ import android.content.Intent;
 
 import java.io.File;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import orwir.starter.logic.network.RetrofitNetwork;
 import orwir.starter.util.ServiceSubscriber;
 
-public class AppContext {
+public class AppFacade {
 
-    public static Observable<AppContext> get(Context context) {
-        return Observable.<AndroidService.ServiceBinder>create(new ServiceSubscriber<>(context, new Intent(context, AndroidService.class), Context.BIND_AUTO_CREATE))
+    public static Single<AppFacade> with(Context context) {
+        return Single.<AndroidService.ServiceBinder>create(new ServiceSubscriber<>(context, new Intent(context, AndroidService.class), Context.BIND_AUTO_CREATE))
                 .map(AndroidService.ServiceBinder::getAppContext);
     }
 
@@ -27,8 +27,8 @@ public class AppContext {
             return this;
         }
 
-        public AppContext build() {
-            AppContext context = new AppContext();
+        public AppFacade build() {
+            AppFacade context = new AppFacade();
             context.network = new RetrofitNetwork(cacheDir, cacheSize);
             return context;
         }
@@ -37,6 +37,6 @@ public class AppContext {
 
     private RetrofitNetwork network;
 
-    private AppContext() {}
+    private AppFacade() {}
 
 }
