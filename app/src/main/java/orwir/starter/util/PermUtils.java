@@ -1,4 +1,4 @@
-package orwir.backbone.util;
+package orwir.starter.util;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import java.util.Arrays;
 
 import io.reactivex.functions.Action;
-import orwir.backbone.ui.BaseActivity;
+import orwir.starter.ui.BaseActivity;
 import timber.log.Timber;
 
 public class PermUtils {

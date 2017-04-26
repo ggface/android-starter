@@ -1,4 +1,4 @@
-package orwir.backbone.ui;
+package orwir.starter.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

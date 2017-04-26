@@ -1,4 +1,4 @@
-package orwir.backbone.ui;
+package orwir.starter.ui;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import orwir.backbone.R;
-import orwir.backbone.util.PermUtils;
+import orwir.starter.R;
+import orwir.starter.util.PermUtils;
 import timber.log.Timber;
 
 public abstract class BaseActivity extends RxAppCompatActivity {

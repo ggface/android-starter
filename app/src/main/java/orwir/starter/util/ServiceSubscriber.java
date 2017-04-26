@@ -1,4 +1,4 @@
-package orwir.backbone.util;
+package orwir.starter.util;
 
 import android.content.ComponentName;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package orwir.backbone.logic.network;
+package orwir.starter.logic.network;
 
 import com.google.gson.Gson;
 

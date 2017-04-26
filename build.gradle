@@ -23,7 +23,7 @@ ext.app = [
     minSdkVersion     : 17,
     compileSdkVersion : 25,
     targetSdkVersion  : 25,
-    applicationId     : 'orwir.backbone'
+    applicationId     : 'orwir.starter'
 ]
 ext.app.putAll(loadProjectConfiguration())
 

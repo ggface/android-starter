@@ -1,4 +1,4 @@
-package orwir.backbone.service;
+package orwir.starter.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import java.io.File;
 
 import io.reactivex.Observable;
-import orwir.backbone.logic.network.RetrofitNetwork;
-import orwir.backbone.util.ServiceSubscriber;
+import orwir.starter.logic.network.RetrofitNetwork;
+import orwir.starter.util.ServiceSubscriber;
 
 public class AppContext {
 

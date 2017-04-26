@@ -1,4 +1,4 @@
-package orwir.backbone.service;
+package orwir.starter.service;
 
 import android.app.Service;
 import android.content.Intent;

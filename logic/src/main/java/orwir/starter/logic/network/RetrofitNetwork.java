@@ -1,4 +1,4 @@
-package orwir.backbone.logic.network;
+package orwir.starter.logic.network;
 
 import android.util.Pair;
 
@@ -15,7 +15,7 @@ import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import orwir.backbone.logic.BuildConfig;
+import orwir.starter.logic.BuildConfig;
 import timber.log.Timber;
 
 public class RetrofitNetwork implements NetworkCommon {

@@ -1,4 +1,4 @@
-package orwir.backbone;
+package orwir.starter;
 
 import android.app.Application;
 import android.os.StrictMode;
@@ -10,7 +10,7 @@ import timber.log.Timber;
 /**
  * rename it in real project
  */
-public class BackboneApplication extends Application {
+public class StarterApplication extends Application {
 
     @Override
     public void onCreate() {
