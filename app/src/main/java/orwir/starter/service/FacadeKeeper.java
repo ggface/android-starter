@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import java.io.File;
 
-public class AndroidService extends Service {
+public class FacadeKeeper extends Service {
 
     public class ServiceBinder extends Binder {
 

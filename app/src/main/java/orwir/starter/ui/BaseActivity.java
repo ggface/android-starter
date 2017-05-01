@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import orwir.starter.R;
+import orwir.starter.service.AppFacade;
 import orwir.starter.util.PermUtils;
 import timber.log.Timber;
 
@@ -26,6 +29,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
     @BindView(R.id.swipe) @Nullable protected SwipeRefreshLayout swipe;
     @BindView(R.id.vscroll) @Nullable protected NestedScrollView vscroll;
+    private Snackbar noInternet;
     private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
 
     /**
@@ -69,6 +73,18 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
+        noInternet = Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE);
+        AppFacade.with(this)
+                .flatMapObservable(AppFacade::online)
+                .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(online -> {
+                    if (online) {
+                        noInternet.dismiss();
+                    } else {
+                        noInternet.show();
+                    }
+                });
     }
 
     @LayoutRes
