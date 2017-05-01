@@ -7,6 +7,7 @@ import java.io.File;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import orwir.starter.logic.network.RetrofitNetwork;
@@ -17,7 +18,8 @@ public class AppFacade {
     public static Single<AppFacade> with(Context context) {
         return Single.<FacadeKeeper.ServiceBinder>create(new ServiceSubscriber<>(context, new Intent(context, FacadeKeeper.class), Context.BIND_AUTO_CREATE))
                 .map(FacadeKeeper.ServiceBinder::getAppFacade)
-                .observeOn(Schedulers.io());
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread());
     }
 
     static class Builder {

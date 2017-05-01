@@ -9,6 +9,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
+import android.util.Pair;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observable;
 import orwir.starter.R;
 import orwir.starter.service.AppFacade;
 import orwir.starter.util.PermUtils;
@@ -29,7 +30,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
     @BindView(R.id.swipe) @Nullable protected SwipeRefreshLayout swipe;
     @BindView(R.id.vscroll) @Nullable protected NestedScrollView vscroll;
-    private Snackbar noInternet;
     private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
 
     /**
@@ -73,16 +73,15 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
-        noInternet = Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE);
         AppFacade.with(this)
                 .flatMapObservable(AppFacade::online)
+                .withLatestFrom(Observable.just(Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)), Pair::new)
                 .compose(bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(online -> {
-                    if (online) {
-                        noInternet.dismiss();
+                .subscribe(pair -> {
+                    if (pair.first) {
+                        pair.second.dismiss();
                     } else {
-                        noInternet.show();
+                        pair.second.show();
                     }
                 });
     }
