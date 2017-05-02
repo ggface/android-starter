@@ -30,7 +30,6 @@ public class FacadeKeeper extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Timber.v("Service '%s' was created", getClass().getSimpleName());
         facade = new AppFacade.Builder()
                 .cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
                 .build();
@@ -41,7 +40,6 @@ public class FacadeKeeper extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //Timber.v("Service '%s' was destroyed", getClass().getSimpleName());
     }
 
     private void watchNetworkState() {

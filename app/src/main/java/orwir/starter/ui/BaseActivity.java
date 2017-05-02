@@ -16,10 +16,13 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import orwir.starter.R;
 import orwir.starter.service.AppFacade;
 import orwir.starter.util.PermUtils;
@@ -73,6 +76,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
+        watchSwipeRefresh();
         AppFacade.with(this)
                 .flatMapObservable(AppFacade::online)
                 .withLatestFrom(Observable.just(Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)), Pair::new)
@@ -84,6 +88,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
                         pair.second.show();
                     }
                 });
+
+        if (savedInstanceState == null) {
+            updateScreenData();
+        }
     }
 
     @LayoutRes
@@ -92,6 +100,21 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @LayoutRes
     protected int getInnerContentId() {
         return -1; //stub
+    }
+
+    protected void updateScreenData() {} //stub
+
+    protected void watchSwipeRefresh() {
+        if (swipe != null) {
+            swipe.setOnRefreshListener(() -> {
+                swipe.setRefreshing(true);
+                updateScreenData();
+                Single.timer(2, TimeUnit.SECONDS)
+                        .compose(bindToLifecycle())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(v -> swipe.setRefreshing(false));
+            });
+        }
     }
 
 }
