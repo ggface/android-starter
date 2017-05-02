@@ -2,11 +2,13 @@ package orwir.starter.logic.network;
 
 import com.google.gson.Gson;
 
-import io.reactivex.Observable;
+import org.reactivestreams.Publisher;
+
+import io.reactivex.Flowable;
 
 public interface NetworkCommon {
 
-    Observable<?> retryPolicy(Observable<? extends Throwable> errors);
+    Publisher<?> retryPolicy(Flowable<? extends Throwable> errors);
 
     Gson getGson();
 

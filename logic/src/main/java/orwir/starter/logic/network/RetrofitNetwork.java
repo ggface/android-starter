@@ -5,12 +5,14 @@ import android.util.Pair;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.reactivestreams.Publisher;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
@@ -19,7 +21,8 @@ import orwir.starter.logic.BuildConfig;
 import timber.log.Timber;
 
 public class RetrofitNetwork implements NetworkCommon {
-
+    
+    private static final int TRY_COUNT = 2;
     private final Gson gson;
 
     public RetrofitNetwork(File cacheDir, int cacheSize) {
@@ -58,15 +61,15 @@ public class RetrofitNetwork implements NetworkCommon {
     }
 
     @Override
-    public Observable<?> retryPolicy(Observable<? extends Throwable> errors) {
-        return errors.zipWith(Observable.range(1, 2), Pair::new).flatMap(pair -> {
+    public Publisher<?> retryPolicy(Flowable<? extends Throwable> errors) {
+        return errors.zipWith(Flowable.range(1, TRY_COUNT + 1), Pair::new).flatMap(pair -> {
             Throwable error = pair.first;
             int tryCount = pair.second;
-            if (tryCount > 1) {
-                return Observable.error(error);
+            if (tryCount >= TRY_COUNT + 1) {
+                return Flowable.error(error);
             }
-            Timber.w("Request retry: %d, reason: %s", tryCount, error.getMessage());
-            return Observable.timer(1, TimeUnit.SECONDS);
+            Timber.w("Request retry #%d. Reason: %s", tryCount, error);
+            return Flowable.timer(tryCount, TimeUnit.SECONDS);
         });
     }
 
