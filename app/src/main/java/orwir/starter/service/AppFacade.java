@@ -8,7 +8,8 @@ import java.io.File;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.subjects.BehaviorSubject;
-import orwir.starter.logic.network.RetrofitNetwork;
+import orwir.starter.logic.api.NewsService;
+import orwir.starter.logic.api.UserService;
 import orwir.starter.util.ServiceSubscriber;
 
 public class AppFacade {
@@ -20,6 +21,7 @@ public class AppFacade {
 
     static class Builder {
 
+        private AppFacade facade = new AppFacade();
         private File cacheDir;
         private int cacheSize;
 
@@ -29,21 +31,39 @@ public class AppFacade {
             return this;
         }
 
+        public Builder userService(UserService userService) {
+            facade.userService = userService;
+            return this;
+        }
+
+        public Builder newsService(NewsService newsService) {
+            facade.newsService = newsService;
+            return this;
+        }
+
         public AppFacade build() {
-            AppFacade context = new AppFacade();
-            context.network = new RetrofitNetwork(cacheDir, cacheSize);
-            return context;
+            //RetrofitNetwork network = new RetrofitNetwork(cacheDir, cacheSize);
+            return facade;
         }
 
     }
 
-    private RetrofitNetwork network;
+    private UserService userService;
+    private NewsService newsService;
     private final BehaviorSubject<Boolean> onlineSubject = BehaviorSubject.create();
 
     private AppFacade() {}
 
     public Observable<Boolean> online() {
         return onlineSubject.distinctUntilChanged();
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public NewsService getNewsService() {
+        return newsService;
     }
 
     void setOnline(boolean online) {

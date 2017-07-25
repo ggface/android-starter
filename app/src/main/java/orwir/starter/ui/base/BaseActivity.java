@@ -1,4 +1,4 @@
-package orwir.starter.ui;
+package orwir.starter.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.util.Pair;
+import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -33,6 +34,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
     @BindView(R.id.swipe) @Nullable protected SwipeRefreshLayout swipe;
     @BindView(R.id.vscroll) @Nullable protected NestedScrollView vscroll;
+    @BindView(R.id.progress) @Nullable protected ProgressBar progress;
     private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
 
     /**
@@ -66,7 +68,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentId());
-        if (getContentId() == R.layout.container && getInnerContentId() != -1) {
+        if (getInnerContentId() != -1) {
             ViewStubCompat container = (ViewStubCompat) findViewById(R.id.stub);
             container.setLayoutResource(getInnerContentId());
             container.inflate();

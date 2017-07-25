@@ -7,7 +7,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import java.io.File;
+import orwir.starter.logic.api.NewsService;
+import orwir.starter.logic.api.UserService;
+import orwir.starter.logic.mock.MockNewsService;
+import orwir.starter.logic.mock.MockUserService;
 
 public class FacadeKeeper extends Service {
 
@@ -30,8 +33,14 @@ public class FacadeKeeper extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        UserService mockUserService = new MockUserService();
+        NewsService mockNewsService = new MockNewsService(mockUserService.user());
+
         facade = new AppFacade.Builder()
-                .cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
+                //.cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
+                .userService(mockUserService)
+                .newsService(mockNewsService)
                 .build();
 
         watchNetworkState();

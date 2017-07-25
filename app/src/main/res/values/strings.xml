@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">starter</string>
     <string name="no_internet">Internet connection was lost</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="as_anonymous">As anonymous</string>
+    <string name="incorrect_username_or_password">Incorrect username or password</string>
+    <string name="oops_something_wrong">Oops, something wrong</string>
+    <string name="search">Search</string>
+    <string name="newest">Newest</string>
+    <string name="oldest">Oldest</string>
 </resources>

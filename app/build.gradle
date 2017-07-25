@@ -76,6 +76,7 @@ dependencies {
     compile lib.rxAndroid
     compile lib.rxLifecycle
     compile lib.rxLifecycleComponents
+    compile lib.rxBindingAppCompatV7
     /*compile(lib.materialDrawer) {
         transitive = true
     }*/
