@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import java.util.Arrays;
 
 import io.reactivex.functions.Action;
-import orwir.starter.ui.BaseActivity;
+import orwir.starter.ui.base.BaseActivity;
 import timber.log.Timber;
 
 public class PermUtils {

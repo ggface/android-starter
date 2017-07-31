@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import orwir.starter.util.ProdTree;
 import timber.log.Timber;
 
 /**
@@ -16,6 +17,8 @@ public class StarterApplication extends Application {
     public void onCreate() {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new ProdTree());
         }
         super.onCreate();
         LeakCanary.install(this);
