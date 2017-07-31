@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
-import android.util.Pair;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import orwir.starter.R;
@@ -35,16 +34,18 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @BindView(R.id.swipe) @Nullable protected SwipeRefreshLayout swipe;
     @BindView(R.id.vscroll) @Nullable protected NestedScrollView vscroll;
     @BindView(R.id.progress) @Nullable protected ProgressBar progress;
-    private final Map<Integer, PermUtils.RequestedAction> requestedActions = new ConcurrentHashMap<>();
+    @BindView(R.id.no_internet) @Nullable protected TextView noInternet;
+    private final Map<Integer, PermUtils.RequestedAction> permissionActions = new ConcurrentHashMap<>();
+    //private final Map<Integer, BiConsumer<Integer, Intent>> resultActions = new ConcurrentHashMap<>(); // TODO: 2017-07-31 under construct
 
     /**
-     Do not use it directly. Use {@link PermUtils#executeWithPermission(BaseActivity, String, int, io.reactivex.functions.Action)}.
+     * Do not use it directly. Use {@link PermUtils#executeWithPermission(BaseActivity, String, int, io.reactivex.functions.Action)}.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        synchronized (requestedActions) { //cuz concurrent collection protected only collection - not handling
-            if (requestedActions.containsKey(requestCode)) {
-                PermUtils.RequestedAction action = requestedActions.remove(requestCode);
+        synchronized (permissionActions) { //cuz concurrent collection protected only collection - not handling
+            if (permissionActions.containsKey(requestCode)) {
+                PermUtils.RequestedAction action = permissionActions.remove(requestCode);
                 if (PermUtils.isPermissionGranted(action.permissions, permissions, grantResults)) {
                     Timber.d("permission '%s' granted from user.", Arrays.toString(action.permissions));
                     try {
@@ -58,10 +59,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     /**
-     Do not use it directly. Use {@link PermUtils#executeWithPermission(BaseActivity, String, int, io.reactivex.functions.Action)}.
+     * Do not use it directly. Use {@link PermUtils#executeWithPermission(BaseActivity, String, int, io.reactivex.functions.Action)}.
      */
     public void addRequestedAction(PermUtils.RequestedAction action) {
-        requestedActions.put(action.requestCode, action);
+        permissionActions.put(action.requestCode, action);
     }
 
     @Override
@@ -79,17 +80,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
         watchSwipeRefresh();
-        AppFacade.with(this)
-                .flatMapObservable(AppFacade::online)
-                .withLatestFrom(Observable.just(Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)), Pair::new)
-                .compose(bindToLifecycle())
-                .subscribe(pair -> {
-                    if (pair.first) {
-                        pair.second.dismiss();
-                    } else {
-                        pair.second.show();
-                    }
-                });
+        watchInternetConnection();
 
         if (savedInstanceState == null) {
             updateScreenData();
@@ -114,8 +105,30 @@ public abstract class BaseActivity extends RxAppCompatActivity {
                 Single.timer(2, TimeUnit.SECONDS)
                         .compose(bindToLifecycle())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(v -> swipe.setRefreshing(false));
+                        .subscribe(v -> swipe.setRefreshing(false), Timber::e);
             });
+        }
+    }
+
+    protected void watchInternetConnection() {
+        if (noInternet != null) {
+            AppFacade.with(this)
+                    .flatMapObservable(AppFacade::online)
+                    .distinctUntilChanged()
+                    .compose(bindToLifecycle())
+                    .subscribe(online -> noInternet.setVisibility(online ? View.GONE : View.VISIBLE), Timber::e);
+        }
+    }
+
+    protected void setProgress(boolean visible) {
+        if (progress != null) {
+            progress.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    protected void setSwipeRefresh(boolean refreshing) {
+        if (swipe != null) {
+            swipe.setRefreshing(refreshing);
         }
     }
 

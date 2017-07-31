@@ -3,14 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <TextView
+        android:id="@+id/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_warning"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/no_internet"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textStyle="bold"/>
 
 </android.support.design.widget.AppBarLayout>
