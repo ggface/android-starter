@@ -16,12 +16,12 @@ public class FacadeKeeper extends Service {
 
     public class ServiceBinder extends Binder {
 
-        public AppFacade getAppFacade() {
+        public AppServices getAppFacade() {
             return facade;
         }
     }
 
-    private AppFacade facade;
+    private AppServices facade;
     private final ServiceBinder binder = new ServiceBinder();
 
     @Nullable

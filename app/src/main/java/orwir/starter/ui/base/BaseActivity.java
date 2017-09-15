@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import orwir.starter.R;
-import orwir.starter.service.AppFacade;
+import orwir.starter.service.AppServices;
 import orwir.starter.util.PermUtils;
 import timber.log.Timber;
 
@@ -112,8 +112,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     protected void watchInternetConnection() {
         if (noInternet != null) {
-            AppFacade.with(this)
-                    .flatMapObservable(AppFacade::online)
+            AppServices.with(this)
+                    .flatMapObservable(AppServices::online)
                     .distinctUntilChanged()
                     .compose(bindToLifecycle())
                     .subscribe(online -> noInternet.setVisibility(online ? View.GONE : View.VISIBLE), Timber::e);

@@ -12,9 +12,9 @@ import orwir.starter.logic.api.NewsService;
 import orwir.starter.logic.api.UserService;
 import orwir.starter.util.ServiceSubscriber;
 
-public class AppFacade {
+public class AppServices {
 
-    public static Single<AppFacade> with(Context context) {
+    public static Single<AppServices> with(Context context) {
         return Single.<FacadeKeeper.ServiceBinder>create(new ServiceSubscriber<>(context, new Intent(context, FacadeKeeper.class), Context.BIND_AUTO_CREATE))
                 .map(FacadeKeeper.ServiceBinder::getAppFacade);
     }
@@ -41,9 +41,10 @@ public class AppFacade {
             return this;
         }
 
-        public AppFacade build() {
-            //RetrofitNetwork network = new RetrofitNetwork(cacheDir, cacheSize);
-            return facade;
+        public AppServices build() {
+            AppServices context = new AppServices();
+            context.network = new RetrofitNetwork(cacheDir, cacheSize);
+            return context;
         }
 
     }
@@ -52,7 +53,7 @@ public class AppFacade {
     private NewsService newsService;
     private final BehaviorSubject<Boolean> onlineSubject = BehaviorSubject.create();
 
-    private AppFacade() {}
+    private AppServices() {}
 
     public Observable<Boolean> online() {
         return onlineSubject.distinctUntilChanged();

@@ -17,7 +17,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //Timber.v("Network state changed: %s", isOnline(context));
-        AppFacade.with(context).subscribe(facade -> facade.setOnline(isOnline(context)));
+        AppServices.with(context).subscribe(facade -> facade.setOnline(isOnline(context)));
     }
 
 }
