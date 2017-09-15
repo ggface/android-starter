@@ -37,7 +37,7 @@ public class FacadeKeeper extends Service {
         UserService mockUserService = new MockUserService();
         NewsService mockNewsService = new MockNewsService(mockUserService.user());
 
-        facade = new AppFacade.Builder()
+        facade = new AppServices.Builder()
                 //.cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
                 .userService(mockUserService)
                 .newsService(mockNewsService)

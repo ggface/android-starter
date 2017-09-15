@@ -10,6 +10,7 @@ import io.reactivex.Single;
 import io.reactivex.subjects.BehaviorSubject;
 import orwir.starter.logic.api.NewsService;
 import orwir.starter.logic.api.UserService;
+import orwir.starter.logic.network.RetrofitNetwork;
 import orwir.starter.util.ServiceSubscriber;
 
 public class AppServices {
@@ -21,7 +22,7 @@ public class AppServices {
 
     static class Builder {
 
-        private AppFacade facade = new AppFacade();
+        private AppServices services = new AppServices();
         private File cacheDir;
         private int cacheSize;
 
@@ -32,12 +33,12 @@ public class AppServices {
         }
 
         public Builder userService(UserService userService) {
-            facade.userService = userService;
+            services.userService = userService;
             return this;
         }
 
         public Builder newsService(NewsService newsService) {
-            facade.newsService = newsService;
+            services.newsService = newsService;
             return this;
         }
 
@@ -51,6 +52,7 @@ public class AppServices {
 
     private UserService userService;
     private NewsService newsService;
+    private RetrofitNetwork network;
     private final BehaviorSubject<Boolean> onlineSubject = BehaviorSubject.create();
 
     private AppServices() {}
