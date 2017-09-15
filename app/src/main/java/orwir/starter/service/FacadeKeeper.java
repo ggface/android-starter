@@ -13,12 +13,12 @@ public class FacadeKeeper extends Service {
 
     public class ServiceBinder extends Binder {
 
-        public AppServices getAppFacade() {
-            return facade;
+        public AppServices getAppServices() {
+            return services;
         }
     }
 
-    private AppServices facade;
+    private AppServices services;
     private final ServiceBinder binder = new ServiceBinder();
 
     @Nullable
@@ -30,7 +30,7 @@ public class FacadeKeeper extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        facade = new AppServices.Builder()
+        services = new AppServices.Builder()
                 .cache(new File(getExternalCacheDir(), "network-cache"), 10 * 1024 * 1024) //10 Mb
                 .build();
 

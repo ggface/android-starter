@@ -15,7 +15,7 @@ public class AppServices {
 
     public static Single<AppServices> with(Context context) {
         return Single.<FacadeKeeper.ServiceBinder>create(new ServiceSubscriber<>(context, new Intent(context, FacadeKeeper.class), Context.BIND_AUTO_CREATE))
-                .map(FacadeKeeper.ServiceBinder::getAppFacade);
+                .map(FacadeKeeper.ServiceBinder::getAppServices);
     }
 
     static class Builder {
